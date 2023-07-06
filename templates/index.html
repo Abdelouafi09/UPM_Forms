@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Survey Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/create">Create Survey</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Build Surveys with Ease</h1>
+            <p>Create custom surveys, gather responses, and analyze results.</p>
+            <a href="/create" class="btn">Get Started</a>
+        </div>
+    </section>
+    
+    <section class="features">
+        <div class="feature">
+            <img src="{{ url_for('static', filename='icon1.png') }}" alt="Feature 1">
+            <h2>Easy Survey Creation</h2>
+            <p>Create surveys with a simple and intuitive form builder. Add various question types, customize options, and rearrange them effortlessly.</p>
+        </div>
+        
+        <div class="feature">
+            <img src="{{ url_for('static', filename='icon2.png') }}" alt="Feature 2">
+            <h2>Collect Responses</h2>
+            <p>Share your surveys with participants and collect responses in real-time. Monitor response progress and track completion rates.</p>
+        </div>
+        
+        <div class="feature">
+            <img src="{{ url_for('static', filename='icon3.png') }}" alt="Feature 3">
+            <h2>Detailed Analytics</h2>
+            <p>Gain insights from survey results with detailed analytics. Visualize data with charts and graphs, and export reports for further analysis.</p>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2023 Survey Web App. All rights reserved.</p>
+    </footer>
+</body>
+</html>

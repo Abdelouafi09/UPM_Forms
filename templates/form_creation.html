@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/create">Create Survey</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="form-creation">
+        <h1>Create a New Form</h1>
+        
+        <form method="POST" action="">
+            <label for="form_title">Form Title:</label>
+            <input type="text" id="form_title" name="form_title" required>
+            
+            <label for="form_description">Form Description:</label>
+            <textarea id="form_description" name="form_description" rows="3" required></textarea>
+            
+            <div id="questions">
+                <div class="question">
+                    <label for="question_1">Question 1:</label>
+                    <input type="text" id="question_1" name="question_1" required>
+                    
+                    <label for="question_1_type">Question Type:</label>
+                    <select id="question_1_type" name="question_1_type" onchange="toggleOptions(this)">
+                        <option value="checkbox">Multiple Choice</option>
+                        <option value="radio">Single Choice</option>
+                    </select>
+                    
+                    <div id="question_1_options" class="question-options">
+                        <label for="question_1_option_1">Option 1:</label>
+                        <input type="text" id="question_1_option_1" name="question_1_option_1" required>
+                        
+                        <label for="question_1_option_2">Option 2:</label>
+                        <input type="text" id="question_1_option_2" name="question_1_option_2" required>
+                    </div>
+                    
+                    <button type="button" onclick="addOption(this)">Add Option</button>
+                </div>
+            </div>
+            
+            <button type="button" onclick="addQuestion()">Add Question</button>
+            
+            <input type="submit" value="Create Form">
+        </form>
+    </section>
+    
+    <footer>
+        <p>&copy; 2023 Survey Web App. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        let questionCounter = 1;
+        
+        function addQuestion() {
+            questionCounter++;
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+            
+            const questionLabel = document.createElement('label');
+            questionLabel.htmlFor = `question_${questionCounter}`;
+            questionLabel.textContent = `Question ${questionCounter}:`;
+            
+            const questionInput = document.createElement('input');
+            questionInput.type = 'text';
+            questionInput.id = `question_${questionCounter}`;
+            questionInput.name = `question_${questionCounter}`;
+            questionInput.required = true;
+            
+            const questionTypeLabel = document.createElement('label');
+            questionTypeLabel.htmlFor = `question_${questionCounter}_type`;
+            questionTypeLabel.textContent = 'Question Type:';
+            
+            const questionTypeSelect = document.createElement('select');
+            questionTypeSelect.id = `question_${questionCounter}_type`;
+            questionTypeSelect.name = `questionquestion_${questionCounter}_type`;
+            questionTypeSelect.onchange = function() { toggleOptions(this); };
+            
+            const checkboxOption = document.createElement('option');
+            checkboxOption.value = 'checkbox';
+            checkboxOption.textContent = 'Multiple Choice';
+            
+            const radioOption = document.createElement('option');
+            radioOption.value = 'radio';
+            radioOption.textContent = 'Single Choice';
+            
+            questionTypeSelect.appendChild(checkboxOption);
+            questionTypeSelect.appendChild(radioOption);
+            
+            const questionOptionsDiv = document.createElement('div');
+            questionOptionsDiv.id = `question_${questionCounter}_options`;
+            questionOptionsDiv.className = 'question-options';
+            
+            const optionLabel1 = document.createElement('label');
+            optionLabel1.htmlFor = `question_${questionCounter}_option_1`;
+            optionLabel1.textContent = 'Option 1:';
+            
+            const optionInput1 = document.createElement('input');
+            optionInput1.type = 'text';
+            optionInput1.id = `question_${questionCounter}_option_1`;
+            optionInput1.name = `question_${questionCounter}_option_1`;
+            optionInput1.required = true;
+            
+            const optionLabel2 = document.createElement('label');
+            optionLabel2.htmlFor = `question_${questionCounter}_option_2`;
+            optionLabel2.textContent = 'Option 2:';
+            
+            const optionInput2 = document.createElement('input');
+            optionInput2.type = 'text';
+            optionInput2.id = `question_${questionCounter}_option_2`;
+            optionInput2.name = `question_${questionCounter}_option_2`;
+            optionInput2.required = true;
+            
+            questionOptionsDiv.appendChild(optionLabel1);
+            questionOptionsDiv.appendChild(optionInput1);
+            questionOptionsDiv.appendChild(optionLabel2);
+            questionOptionsDiv.appendChild(optionInput2);
+            
+            questionDiv.appendChild(questionLabel);
+            questionDiv.appendChild(questionInput);
+            questionDiv.appendChild(questionTypeLabel);
+            questionDiv.appendChild(questionTypeSelect);
+            questionDiv.appendChild(questionOptionsDiv);
+            
+            const addOptionButton = document.createElement('button');
+            addOptionButton.type = 'button';
+            addOptionButton.textContent = 'Add Option';
+            addOptionButton.onclick = function() { addOption(this); };
+            
+            questionDiv.appendChild(addOptionButton);
+            
+            document.getElementById('questions').appendChild(questionDiv);
+        }
+        
+        function addOption(button) {
+            const questionDiv = button.parentNode;
+            const questionNumber = questionDiv.id.split('_')[1];
+            const questionOptionsDiv = document.getElementById(`question_${questionNumber}_options`);
+            
+            const optionIndex = questionOptionsDiv.childElementCount / 2;
+            
+            const optionLabel = document.createElement('label');
+            optionLabel.htmlFor = `question_${questionNumber}_option_${optionIndex}`;
+            optionLabel.textContent = `Option ${optionIndex}:`;
+            
+            const optionInput = document.createElement('input');
+            optionInput.type = 'text';
+            optionInput.id = `question_${questionNumber}_option_${optionIndex}`;
+            optionInput.name = `question_${questionNumber}_option_${optionIndex}`;
+            optionInput.required = true;
+            
+            questionOptionsDiv.appendChild(optionLabel);
+            questionOptionsDiv.appendChild(optionInput);
+        }
+        
+        function toggleOptions(selectElement) {
+            const questionNumber = selectElement.id.split('_')[1];
+            const questionOptionsDiv = document.getElementById(`question_${questionNumber}_options`);
+            
+            if (selectElement.value === 'checkbox') {
+                questionOptionsDiv.style.display = 'block';
+            } else {
+                questionOptionsDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
